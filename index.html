@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>miloutd — Graphic Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #F4F1EB;
+      --ink:      #1C1B18;
+      --muted:    #8A8679;
+      --accent:   #C9894A;
+      --line:     rgba(28,27,24,0.12);
+      --ff-head:  'Fraunces', Georgia, serif;
+      --ff-body:  'Syne', sans-serif;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      min-height: 100vh;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* Custom cursor */
+    #cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+      z-index: 9999;
+      mix-blend-mode: multiply;
+    }
+    #cursor.expand { width: 36px; height: 36px; opacity: 0.35; }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    header {
+      padding: 2.8rem 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+    .logo {
+      font-family: var(--ff-body);
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .badge {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero {
+      padding: 6rem 0 5rem;
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.25s forwards;
+    }
+    .hero-name {
+      font-family: var(--ff-head);
+      font-size: clamp(5.5rem, 14vw, 11rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.35s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--muted);
+    }
+    .hero-tagline {
+      margin-top: 2.8rem;
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 420px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.5s forwards;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.65s forwards;
+    }
+
+    .services {
+      padding: 4.5rem 0 5rem;
+    }
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.75s forwards;
+    }
+    .service-list { list-style: none; }
+    .service-item {
+      display: flex;
+      align-items: center;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--line);
+      gap: 1.6rem;
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    .service-item:first-child { border-top: 1px solid var(--line); }
+    .service-item:nth-child(1) { animation: slideIn 0.55s ease 0.85s forwards; }
+    .service-item:nth-child(2) { animation: slideIn 0.55s ease 0.97s forwards; }
+    .service-item:nth-child(3) { animation: slideIn 0.55s ease 1.09s forwards; }
+    .service-item:nth-child(4) { animation: slideIn 0.55s ease 1.21s forwards; }
+    .service-item:nth-child(5) { animation: slideIn 0.55s ease 1.33s forwards; }
+
+    .service-num {
+      font-family: var(--ff-head);
+      font-size: 0.72rem;
+      font-style: italic;
+      color: var(--accent);
+      width: 1.8rem;
+      flex-shrink: 0;
+    }
+    .service-name {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      flex: 1;
+      transition: color 0.2s;
+    }
+    .service-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--line);
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .service-item:hover .service-dot { background: var(--accent); }
+    .service-item:hover .service-name { color: var(--accent); }
+
+    .cta-section {
+      padding: 1rem 0 5rem;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 1.5s forwards;
+    }
+    .cta-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+      max-width: 240px;
+    }
+    .fb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--ink);
+      color: var(--bg);
+      text-decoration: none;
+      font-family: var(--ff-body);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+    }
+    .fb-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.76,0,0.24,1);
+      z-index: 0;
+    }
+    .fb-btn:hover::after { transform: scaleX(1); }
+    .fb-btn span, .fb-btn svg { position: relative; z-index: 1; }
+    .fb-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.8rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1.7s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Subtle noise texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9000;
+      opacity: 0.55;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0 1.4rem; }
+      .hero { padding: 4rem 0 3.5rem; }
+      .cta-section { gap: 1.5rem; }
+      .cta-text { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <div class="container">
+
+    <header>
+      <span class="logo">miloutd</span>
+      <span class="badge">Graphic Designer</span>
+    </header>
+
+    <section class="hero">
+      <p class="hero-label">ฟรีแลนซ์ดีไซเนอร์</p>
+      <h1 class="hero-name">mil<em>out</em>d</h1>
+      <p class="hero-tagline">ออกแบบที่บอกเล่าเรื่องราว — ตั้งแต่โลโก้ไปจนถึงสื่อสังคมออนไลน์ ด้วยสไตล์ที่สะอาด ชัดเจน และจดจำได้</p>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="services">
+      <p class="section-label">บริการที่รับทำ</p>
+      <ul class="service-list">
+        <li class="service-item">
+          <span class="service-num">01</span>
+          <span class="service-name">ออกแบบโลโก้</span>
+          <span class="service-dot"></span>
+        </li>
+        <li class="service-item">
+          <span class="service-num">02</span>
+          <span class="service-name">โปสเตอร์ &amp; สื่อสิ่งพิมพ์</span>
+          <span class="service-dot"></span>
+        </li>
+        <li class="service-item">
+          <span class="service-num">03</span>
+          <span class="service-name">Social Media Content</span>
+          <span class="service-dot"></span>
+        </li>
+        <li class="service-item">
+          <span class="service-num">04</span>
+          <span class="service-name">Packaging Design</span>
+          <span class="service-dot"></span>
+        </li>
+        <li class="service-item">
+          <span class="service-num">05</span>
+          <span class="service-name">Presentation Design</span>
+          <span class="service-dot"></span>
+        </li>
+      </ul>
+    </section>
+
+    <div class="cta-section">
+      <p class="cta-text">สนใจงาน? ทักมาได้เลย — ตอบทุกวัน</p>
+      <a class="fb-btn" href="https://facebook.com/miloutd" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073c0 6.027 4.388 11.02 10.125 11.927v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.27h3.328l-.532 3.49h-2.796v8.437C19.612 23.093 24 18.1 24 12.073z"/>
+        </svg>
+        <span>ติดต่อทาง Facebook</span>
+      </a>
+    </div>
+
+    <footer>
+      <span>© 2026 miloutd</span>
+      <span>Freelance Graphic Designer</span>
+    </footer>
+
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, li').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+    });
+  </script>
+
+</body>
+</html>
